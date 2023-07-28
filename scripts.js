@@ -84,22 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
     'pawel-czerwinski-FAlYVtV1kRg-unsplash.jpg',
   ]
 
-  // Load a random background from the imagesList array
-  function getRandomImage() {
-    const randomIndex = Math.floor(Math.random() * imagesList.length)
-    return imagesList[randomIndex]
-  }
+ 
 
-  const background = document.getElementById('background')
-  background.style.backgroundImage = `url('./images/${getRandomImage()}')`
-  background.style.opacity = '1'
-  const credits = document.getElementById('credits')
-  const by = document.createElement('p')
-  by.innerHTML =
-    'Photo by <a href="https://unsplash.com/@pawel_czerwinski?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Pawel Czerwinski</a> on <a href="https://unsplash.com/wallpapers?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>'
-  credits.appendChild(by)
-  credits.style.opacity = '0.6'
-  document.getElementById('overlay').style.opacity = '0.8'
 
   // Hide placeholder on input focus
   input.addEventListener('focus', () => {
