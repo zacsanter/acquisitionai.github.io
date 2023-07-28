@@ -15,6 +15,7 @@ body, html {
   position: fixed;
   width: 110%;
   height: 110%;
+
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -48,41 +49,9 @@ body, html {
   transition: opacity 0.5s;
 }
 
-#chat-window {
-  position: absolute;
-  top: 20%;
-  bottom: 20%;
-  left: 25%;
-  right: 25%;
-  overflow-y: auto;
-  border: 1px solid white;
-  border-radius: 10px;
-  padding: 10px;
-}
-
-.message {
-  max-width: 70%;
-  margin: 10px;
-  padding: 10px;
-  border-radius: 20px;
-  font-size: 16px;
-}
-
-.user-message {
-  align-self: flex-end;
-  background-color: #0B93F6;
-  color: white;
-}
-
-.assistant-message {
-  align-self: flex-start;
-  background-color: #E5E5EA;
-  color: black;
-}
-
 #input-container {
   position: absolute;
-  bottom: 10%;
+  bottom: 15%;
   left: 50%;
   transform: translate(-50%, 0);
   width: 60%;
@@ -161,6 +130,7 @@ a {
   to { opacity: 0; }
 }
 
+
 #user-input.fade-out {
   animation: fadeOut 0.5s forwards;
 }
@@ -175,11 +145,7 @@ a {
     opacity: 1;
   }
   100% {
-    transform: translateX(-50%) scale(1.5);
+    transform: translateX(-50%) scale(1);
     opacity: 0;
   }
-}
-
-#wave.animate {
-  animation: waveAnimation 1s linear forwards;
 }
