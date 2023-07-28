@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+  interact('#launch#');
+});
   // Generate a unique ID for the user
   const uniqueId = generateUniqueId()
+  
 
   // Set the runtime, version and API key for the Voiceflow Dialog API
   const voiceflowRuntime = 'general-runtime.voiceflow.com'
