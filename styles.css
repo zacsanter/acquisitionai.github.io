@@ -56,6 +56,8 @@ body, html {
   transform: translate(-50%, 0);
   width: 60%;
   opacity: 0;
+  transition: opacity 1s;
+  z-index: 1;
   border-bottom: 1.5px solid rgba(255, 255, 255, 0.80);
 }
 
