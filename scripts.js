@@ -111,26 +111,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Send user input to Voiceflow Dialog API
   input.addEventListener('keypress', (event) => {
-    if (event.key === 'Enter') {
-      const userInput = input.value.trim()
+  if (event.key === 'Enter') {
+    const userInput = input.value.trim()
 
-      if (userInput) {
-        // Disable input field and apply fade-out animation
-        input.disabled = true
-        input.classList.add('fade-out')
+    if (userInput) {
+      // Disable input field and apply fade-out animation
+      input.disabled = true
+      input.classList.add('fade-out')
 
-        // Fade out previous content
-        responseContainer.style.opacity = '0'
-        // Check if any audio is currently playing
-        if (audio && !audio.paused) {
-          // If audio is playing, pause it
-          wave.style.opacity = '0'
-          audio.pause()
-        }
-        interact(userInput)
-      }
+      // Fade out previous content
+      responseContainer.style.opacity = '0'
+
+      // Check if any audio is currently playing
+      if (audio && !audio.paused) {
+        // If audio is playing, pause it
+        wave.style.opacity = '0'
+        audio.pause()
+      }      
+      // Add user message to the chat window
+      const messageElement = document.createElement('div')
+      messageElement.classList.add('message', 'user')
+      messageElement.textContent = userInput
+      chatWindow.appendChild(messageElement)
+
+      // Scroll to the bottom of the chat window
+      chatWindow.scrollTop = chatWindow.scrollHeight
+
+      interact(userInput)
     }
-  })
+  }
+})
+
 
   // Send user input to Voiceflow Dialog API
   async function interact(input) {
@@ -167,76 +178,48 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Render the response from the Voiceflow Dialog API
-  function displayResponse(response) {
-    console.log('Dialog API Response:', response)
+function displayResponse(response) {
+  // Fade out previous content
+  responseContainer.style.opacity = '0'
+  wave.style.opacity = '0'
+  instance.start()
 
-    // Fade out previous content
-    responseContainer.style.opacity = '0'
-    wave.style.opacity = '0'
-    instance.start()
+  setTimeout(() => {
+    let audioQueue = []
 
-    setTimeout(() => {
-      let content = ''
-      let audioQueue = []
+    // Fetch VF DM API response
+    if (response) {
+      response.forEach((item) => {
+        if (item.type === 'speak' || item.type === 'text') {
+          console.info('Speak/Text Step')
 
-      // Clear responseContainer from previous content
-      while (responseContainer.firstChild) {
-        responseContainer.removeChild(responseContainer.firstChild)
-      }
+          const messageElement = document.createElement('div')
+          messageElement.classList.add('message', 'assistant')
+          messageElement.textContent = item.payload.message
+          chatWindow.appendChild(messageElement)
 
-      // Fetch VF DM API response
-      if (response) {
-        response.forEach((item) => {
-          if (item.type === 'speak') {
-            console.info('Speak Step')
-            if (item.payload.type === 'message') {
-              const textElement = document.createElement('p')
-              textElement.textContent = item.payload.message
-              textElement.setAttribute('data-src', item.payload.src)
-              textElement.style.opacity = '0'
-              responseContainer.appendChild(textElement)
-            }
-            // Add audio to the queue
+          // Add audio to the queue
+          if (item.payload.src) {
             audioQueue.push(item.payload.src)
-          } else if (item.type === 'text') {
-            console.info('Text Step')
-            const textElement = document.createElement('p')
-            textElement.textContent = item.payload.message
-            textElement.style.opacity = '0'
-            responseContainer.appendChild(textElement)
-            textElement.style.transition = 'opacity 0.5s'
-            textElement.style.opacity = '1'
-          } else if (item.type === 'visual') {
-            console.info('Image Step')
-            const imageElement = document.createElement('img')
-            imageElement.src = item.payload.image
-            imageElement.alt = 'Assistant Image'
-            //imageElement.style.borderRadius = '3%'
-            imageElement.style.border = '2px solid white'
-            imageElement.style.width = 'auto'
-            imageElement.style.height = 'auto'
-            imageElement.style.maxWidth = '80%'
-            imageElement.style.opacity = '0'
-            imageElement.style.boxShadow =
-              '0px 0px 16px 1px rgba(0, 0, 0, 0.1), 0px 0px 16px 1px rgba(0, 0, 0, 0.08)'
-            imageElement.style.cursor = 'pointer'
-            responseContainer.appendChild(imageElement)
-            imageElement.style.transition = 'opacity 2.5s'
-            imageElement.style.opacity = '1'
-            imageElement.addEventListener('click', () => {
-              showModal(item.payload.image)
-            })
           }
-        })
-      } else {
-        console.info('Error')
-        const textElement = document.createElement('p')
-        textElement.textContent = `Sorry, GPT took too long to respond.\n\nPlease try again.`
-        textElement.style.opacity = '0'
-        responseContainer.appendChild(textElement)
-        textElement.style.transition = 'opacity 0.5s'
-        textElement.style.opacity = '1'
-      }
+        } else if (item.type === 'visual') {
+          console.info('Image Step')
+
+          const imageElement = document.createElement('img')
+          imageElement.src = item.payload.image
+          imageElement.alt = 'Assistant Image'
+          imageElement.style.width = '100%'
+          chatWindow.appendChild(imageElement)
+        }
+      })
+    } else {
+      console.info('Error')
+
+      const messageElement = document.createElement('div')
+      messageElement.classList.add('message', 'assistant')
+      messageElement.textContent = 'Sorry, GPT took too long to respond.\n\nPlease try again.'
+      chatWindow.appendChild(messageElement)
+    }
 
       // Fade in new content
       responseContainer.style.opacity = '1'
@@ -289,21 +272,21 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Start playing audios sequentially
-      playNextAudio()
-    }, 250)
-    setTimeout(() => {
-      // Re-enable input field and remove focus
-      input.disabled = false
-      input.value = ''
-      input.classList.remove('fade-out')
-      input.blur()
-      input.focus()
-    }, 200)
-  }
+    playNextAudio()
+  }, 250)
 
   setTimeout(() => {
-    inputFieldContainer.style.animation = 'fadeIn 4s forwards'
-  }, 2500)
+    // Re-enable input field and remove focus
+    input.disabled = false
+    input.value = ''
+    input.classList.remove('fade-out')
+    input.blur()
+    input.focus()
+
+    // Scroll to the bottom of the chat window
+    chatWindow.scrollTop = chatWindow.scrollHeight
+  }, 200)
+}
 
   // Modal to show Image
   function showModal(imageSrc) {
