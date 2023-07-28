@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const responseContainer = document.getElementById('response-container')
   const inputPlaceholder = document.getElementById('input-placeholder')
   const inputFieldContainer = document.getElementById('input-container')
+  const chatWindow = document.getElementById('chat-window');
+
 
   var instance = new SiriWave({
     container: document.getElementById('wave'),
