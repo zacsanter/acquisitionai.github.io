@@ -1,7 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Your Voiceflow API key and version ID
-  const API_KEY = 'YOUR_VOICEFLOW_API_KEY';
-  const VERSION_ID = 'YOUR_VOICEFLOW_VERSION_ID';
+ // Set the runtime, version and API key for the Voiceflow Dialog API
+  const voiceflowRuntime = 'general-runtime.voiceflow.com'
+  const voiceflowVersionID =
+    document.getElementById('vfassistant').getAttribute('data-version') ||
+    'production'
+  const voiceflowAPIKey = 'VF.DM.64c14493b6edaf00071e8b60.1cbUWSymzUewJmIx'
+
 
   // DOM elements
   const background = document.getElementById('background');
