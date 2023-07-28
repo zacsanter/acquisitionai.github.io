@@ -112,78 +112,34 @@ document.addEventListener('DOMContentLoaded', () => {
   // Send user input to Voiceflow Dialog API
   input.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
-      const userInput = input.value.trim()
-
+      const userInput = input.value.trim();
       if (userInput) {
-        // Disable input field and apply fade-out animation
-        input.disabled = true
-        input.classList.add('fade-out')
-
-        // Fade out previous content
-        responseContainer.style.opacity = '0'
-        // Check if any audio is currently playing
+        addMessage(userInput, 'user');
+        input.disabled = true;
+        input.classList.add('fade-out');
+        responseContainer.style.opacity = '0';
         if (audio && !audio.paused) {
-          // If audio is playing, pause it
-          wave.style.opacity = '0'
-          audio.pause()
+          wave.style.opacity = '0';
+          audio.pause();
         }
-        interact(userInput)
+        interact(userInput);
       }
     }
-  })
+  });
 
-  // Send user input to Voiceflow Dialog API
-  async function interact(input) {
-    let body = {
-      config: { tts: true, stripSSML: true },
-      action: { type: 'text', payload: input },
-    }
-
-    // If input is #launch# > Use a launch action to the request body
-    if (input == '#launch#') {
-      body = {
-        config: { tts: true, stripSSML: true },
-        action: { type: 'launch' },
-      }
-    }
-
-    fetch(`https://${voiceflowRuntime}/state/user/${uniqueId}/interact/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: voiceflowAPIKey,
-        versionID: voiceflowVersionID,
-      },
-      body: JSON.stringify(body),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        displayResponse(data)
-      })
-      .catch((err) => {
-        // console.error(err)
-        displayResponse(null)
-      })
+  // New function to create a new message div and add it to the chat window
+  function addMessage(text, sender) {
+    const message = document.createElement('div');
+    message.classList.add('message');
+    message.classList.add(sender + '-message');
+    message.textContent = text;
+    const chatWindow = document.getElementById('chat-window');
+    chatWindow.appendChild(message);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
   }
 
   // Render the response from the Voiceflow Dialog API
   function displayResponse(response) {
-    console.log('Dialog API Response:', response)
-
-    // Fade out previous content
-    responseContainer.style.opacity = '0'
-    wave.style.opacity = '0'
-    instance.start()
-
-    setTimeout(() => {
-      let content = ''
-      let audioQueue = []
-
-      // Clear responseContainer from previous content
-      while (responseContainer.firstChild) {
-        responseContainer.removeChild(responseContainer.firstChild)
-      }
-
       // Fetch VF DM API response
       if (response) {
         response.forEach((item) => {
