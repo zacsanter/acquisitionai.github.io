@@ -121,13 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })
   }
 
-  // Render the response from the Voiceflow Dialog API
-function displayResponse(response) {
-  // Fade out previous content
-  responseContainer.style.opacity = '0'
 
-  setTimeout(() => {
-    let audioQueue = []
 
     // Fetch VF DM API response
     if (response) {
