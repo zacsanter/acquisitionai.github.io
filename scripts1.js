@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  interact('#launch#');
+    interact({ type: 'launch' });
   // Generate a unique ID for the user
   const uniqueId = generateUniqueId()
   
