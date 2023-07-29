@@ -125,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function displayResponse(response) {
   // Fade out previous content
   responseContainer.style.opacity = '0'
-  instance.start()
 
   setTimeout(() => {
     let audioQueue = []
