@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+  interact('#launch#');
   // Generate a unique ID for the user
   const uniqueId = generateUniqueId()
   
@@ -72,21 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 500)
     }
   })
-
-  const imagesList = [
-    'pawel-czerwinski-SVVCP23JFyg-unsplash.jpg',
-    'pawel-czerwinski-vI5XwPbGvmY-unsplash.jpg',
-    'pawel-czerwinski-83y-Ud-UHoo-unsplash.jpg',
-    'pawel-czerwinski-eiKm9AmXxZo-unsplash.jpg',
-    'pawel-czerwinski-iQcqqTBxMFk-unsplash.jpg',
-    'pawel-czerwinski-db2y7AD7s7M-unsplash.jpg',
-    'pawel-czerwinski-WZWxuwX-ce4-unsplash.jpg',
-    'pawel-czerwinski-keVhq8uU23M-unsplash.jpg',
-    'pawel-czerwinski-Ulbtb_46xlc-unsplash.jpg',
-    'pawel-czerwinski-FAlYVtV1kRg-unsplash.jpg',
-  ]
-
- 
 
 
   // Hide placeholder on input focus
