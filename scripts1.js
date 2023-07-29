@@ -12,7 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const voiceflowAPIKey = 'VF.DM.64c14493b6edaf00071e8b60.1cbUWSymzUewJmIx'
 
   let audio = new Audio()
+  const wave = document.getElementById('wave')
   const input = document.getElementById('user-input')
+  const responseContainer = document.getElementById('response-container')
   const inputPlaceholder = document.getElementById('input-placeholder')
   const inputFieldContainer = document.getElementById('input-container')
   const chatWindow = document.getElementById('chat-window');
@@ -21,6 +23,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+  var instance = new SiriWave({
+    container: document.getElementById('wave'),
+    width: 300,
+    height: 120,
+    autostart: false,
+    curveDefinition: [
+      {
+        attenuation: -2,
+        lineWidth: 0.25,
+        opacity: 0.1,
+      },
+      {
+        attenuation: -6,
+        lineWidth: 0.15,
+        opacity: 0.2,
+      },
+      {
+        attenuation: 4,
+        lineWidth: 0.05,
+        opacity: 0.4,
+      },
+      {
+        attenuation: 2,
+        lineWidth: 0.15,
+        opacity: 0.6,
+      },
+      {
+        attenuation: 1,
+        lineWidth: 0.2,
+        opacity: 0.9,
+      },
+    ],
+  })
 
   inputFieldContainer.addEventListener('click', () => {
     input.focus()
@@ -61,6 +96,15 @@ document.addEventListener('DOMContentLoaded', () => {
       // Disable input field and apply fade-out animation
       input.disabled = true
       input.classList.add('fade-out')
+
+      // Fade out previous content
+      responseContainer.style.opacity = '0'
+
+      // Check if any audio is currently playing
+      if (audio && !audio.paused) {
+        // If audio is playing, pause it
+        wave.style.opacity = '0'
+        audio.pause()
       }      
       // Add user message to the chat window
       const messageElement = document.createElement('div')
@@ -111,7 +155,15 @@ document.addEventListener('DOMContentLoaded', () => {
       })
   }
 
+  // Render the response from the Voiceflow Dialog API
+function displayResponse(response) {
+  // Fade out previous content
+  responseContainer.style.opacity = '0'
+  wave.style.opacity = '0'
+  instance.start()
 
+  setTimeout(() => {
+    let audioQueue = []
 
     // Fetch VF DM API response
     if (response) {
@@ -147,7 +199,67 @@ document.addEventListener('DOMContentLoaded', () => {
       chatWindow.appendChild(messageElement)
     }
 
-     
+      // Fade in new content
+      responseContainer.style.opacity = '1'
+
+      // Function to play audio sequentially
+      function playNextAudio() {
+        wave.style.opacity = '1'
+        if (audioQueue.length === 0) {
+          // Set focus back to the input field after all audios are played
+          wave.style.opacity = '0'
+          instance.stop()
+          input.blur()
+          setTimeout(() => {
+            input.focus()
+          }, 100)
+          return
+        }
+
+        const audioSrc = audioQueue.shift()
+        audio = new Audio(audioSrc)
+
+        // Find and show the corresponding text
+        const textElement = responseContainer.querySelector(
+          `[data-src="${audioSrc}"]`
+        )
+        if (textElement) {
+          // Change the opacity of previous text
+          const previousTextElement = textElement.previousElementSibling
+          if (previousTextElement && previousTextElement.tagName === 'P') {
+            previousTextElement.style.opacity = '0.5'
+          }
+          // Show the current text
+          textElement.style.transition = 'opacity 0.5s'
+          textElement.style.opacity = '1'
+        }
+
+        audio.addEventListener('canplaythrough', () => {
+          audio.play()
+        })
+
+        audio.addEventListener('ended', () => {
+          playNextAudio()
+        })
+
+        // Handle errors
+        audio.addEventListener('error', () => {
+          console.error('Error playing audio:', audio.error)
+          playNextAudio() // Skip the current audio and continue with the next one
+        })
+      }
+
+      // Start playing audios sequentially
+    playNextAudio()
+  }, 250)
+
+  setTimeout(() => {
+    // Re-enable input field and remove focus
+    input.disabled = false
+    input.value = ''
+    input.classList.remove('fade-out')
+    input.blur()
+    input.focus()
 
     // Scroll to the bottom of the chat window
     chatWindow.scrollTop = chatWindow.scrollHeight
