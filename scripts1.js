@@ -70,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
       // Check if any audio is currently playing
       if (audio && !audio.paused) {
         // If audio is playing, pause it
-        wave.style.opacity = '0'
         audio.pause()
       }      
       // Add user message to the chat window
@@ -124,10 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Render the response from the Voiceflow Dialog API
 function displayResponse(response) {
-  // Fade out previous content
-  responseContainer.style.opacity = '0'
-  wave.style.opacity = '0'
-  instance.start()
 
   setTimeout(() => {
     let audioQueue = []
@@ -171,10 +166,8 @@ function displayResponse(response) {
 
       // Function to play audio sequentially
       function playNextAudio() {
-        wave.style.opacity = '1'
         if (audioQueue.length === 0) {
           // Set focus back to the input field after all audios are played
-          wave.style.opacity = '0'
           instance.stop()
           input.blur()
           setTimeout(() => {
