@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    interact('#launch#');
   // Generate a unique ID for the user
   const uniqueId = generateUniqueId()
   
@@ -19,6 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const inputPlaceholder = document.getElementById('input-placeholder')
   const inputFieldContainer = document.getElementById('input-container')
   const chatWindow = document.getElementById('chat-window');
+
+        interact('#launch#');
+
 
 
   var instance = new SiriWave({
