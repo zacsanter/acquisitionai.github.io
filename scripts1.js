@@ -120,11 +120,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // Send user input to Voiceflow Dialog API
-  async function interact(input) {
-    let body = {
-      config: { tts: true, stripSSML: true },
-      action: { type: 'text', payload: input },
+  if (input == '#launch#' || (typeof input === 'object' && input.type === 'launch')) {
+    body = {
+        config: { tts: true, stripSSML: true },
+        action: { type: 'launch' },
     }
+}
+
 
     // If input is #launch# > Use a launch action to the request body
     if (input == '#launch#') {
