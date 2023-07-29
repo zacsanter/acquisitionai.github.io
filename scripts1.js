@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const voiceflowAPIKey = 'VF.DM.64c14493b6edaf00071e8b60.1cbUWSymzUewJmIx'
 
   let audio = new Audio()
-  const wave = document.getElementById('wave')
   const input = document.getElementById('user-input')
   const responseContainer = document.getElementById('response-container')
   const inputPlaceholder = document.getElementById('input-placeholder')
@@ -23,39 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-  var instance = new SiriWave({
-    container: document.getElementById('wave'),
-    width: 300,
-    height: 120,
-    autostart: false,
-    curveDefinition: [
-      {
-        attenuation: -2,
-        lineWidth: 0.25,
-        opacity: 0.1,
-      },
-      {
-        attenuation: -6,
-        lineWidth: 0.15,
-        opacity: 0.2,
-      },
-      {
-        attenuation: 4,
-        lineWidth: 0.05,
-        opacity: 0.4,
-      },
-      {
-        attenuation: 2,
-        lineWidth: 0.15,
-        opacity: 0.6,
-      },
-      {
-        attenuation: 1,
-        lineWidth: 0.2,
-        opacity: 0.9,
-      },
-    ],
-  })
+  
 
   inputFieldContainer.addEventListener('click', () => {
     input.focus()
