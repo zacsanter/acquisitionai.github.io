@@ -152,7 +152,8 @@ input.addEventListener('keypress', (event) => {
   }
 
   // Render the response from the Voiceflow Dialog API
-// Hide typing indicator
+function displayResponse(response) {
+  // Hide typing indicator
   document.getElementById('typing-indicator').classList.add('hidden')
   setTimeout(() => {
     let audioQueue = []
