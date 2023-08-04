@@ -24,7 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
     chatWindow.innerHTML = savedMessages
   }
 
-        interact('#launch#');
+  // Only call interact('#launch#') if there are no saved messages
+  if (!savedMessages) {
+    interact('#launch#')
+  }
 
 
 
