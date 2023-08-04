@@ -105,6 +105,8 @@ input.addEventListener('keypress', (event) => {
       // Scroll to the bottom of the chat window
       chatWindow.scrollTop = chatWindow.scrollHeight
 
+       document.getElementById('typing-animation').classList.remove('hidden')
+
       interact(userInput)
     }
   }
@@ -112,6 +114,7 @@ input.addEventListener('keypress', (event) => {
 
 
   // Send user input to Voiceflow Dialog API
+  
   async function interact(input) {
     let body = {
       config: { tts: true, stripSSML: true },
@@ -147,6 +150,7 @@ input.addEventListener('keypress', (event) => {
 
   // Render the response from the Voiceflow Dialog API
 function displayResponse(response) {
+  document.getElementById('typing-animation').classList.add('hidden')
   setTimeout(() => {
     let audioQueue = []
 
