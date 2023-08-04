@@ -18,6 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const inputFieldContainer = document.getElementById('input-container')
   const chatWindow = document.getElementById('chat-window');
 
+  // Load messages from local storage
+  const savedMessages = localStorage.getItem('messages')
+  if (savedMessages) {
+    chatWindow.innerHTML = savedMessages
+  }
+
         interact('#launch#');
 
 
@@ -54,8 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
     input.style.caretColor = 'white'
   })
 
-  // Send user input to Voiceflow Dialog API
-  input.addEventListener('keypress', (event) => {
+ // Send user input to Voiceflow Dialog API
+input.addEventListener('keypress', (event) => {
   if (event.key === 'Enter') {
     const userInput = input.value.trim()
 
@@ -72,11 +78,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // If audio is playing, pause it
         audio.pause()
       }      
-      // Add user message to the chat window
+       // Add user message to the chat window
       const messageElement = document.createElement('div')
       messageElement.classList.add('message', 'user')
       messageElement.textContent = userInput
       chatWindow.appendChild(messageElement)
+
+      // Save messages to local storage
+      localStorage.setItem('messages', chatWindow.innerHTML)
 
       // Scroll to the bottom of the chat window
       chatWindow.scrollTop = chatWindow.scrollHeight
@@ -123,11 +132,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Render the response from the Voiceflow Dialog API
 function displayResponse(response) {
-
   setTimeout(() => {
     let audioQueue = []
 
-    // Fetch VF DM API response
+   // Fetch VF DM API response
     if (response) {
       response.forEach((item) => {
         if (item.type === 'speak' || item.type === 'text') {
@@ -138,6 +146,9 @@ function displayResponse(response) {
           messageElement.textContent = item.payload.message
           chatWindow.appendChild(messageElement)
 
+          // Save messages to local storage
+          localStorage.setItem('messages', chatWindow.innerHTML)
+          
           // Add audio to the queue
           if (item.payload.src) {
             audioQueue.push(item.payload.src)
