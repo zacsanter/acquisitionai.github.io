@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-
   // Generate a unique ID for the user
   const uniqueId = generateUniqueId()
-  
 
   // Set the runtime, version and API key for the Voiceflow Dialog API
   const voiceflowRuntime = 'general-runtime.voiceflow.com'
@@ -16,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const responseContainer = document.getElementById('response-container')
   const inputPlaceholder = document.getElementById('input-placeholder')
   const inputFieldContainer = document.getElementById('input-container')
-  const chatWindow = document.getElementById('chat-window');
+  const chatWindow = document.getElementById('chat-window')
 
   // Load messages from local storage
   const savedMessages = localStorage.getItem('messages')
@@ -42,9 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
     interact('#launch#')
   })
 
-
-  
-
   inputFieldContainer.addEventListener('click', () => {
     input.focus()
   })
@@ -64,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
-
   // Hide placeholder on input focus
   input.addEventListener('focus', () => {
     input.style.caretColor = 'transparent'
@@ -75,56 +69,55 @@ document.addEventListener('DOMContentLoaded', () => {
     input.style.caretColor = 'white'
   })
 
- // Send user input to Voiceflow Dialog API
-input.addEventListener('keypress', (event) => {
-  if (event.key === 'Enter') {
-    const userInput = input.value.trim()
+  // Send user input to Voiceflow Dialog API
+  input.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+      const userInput = input.value.trim()
 
-    if (userInput) {
-      // Disable input field and apply fade-out animation
-      input.disabled = true
-      input.classList.add('fade-out')
+      if (userInput) {
+        // Disable input field and apply fade-out animation
+        input.disabled = true
+        input.classList.add('fade-out')
 
-      // Fade out previous content
-      responseContainer.style.opacity = '0'
+        // Fade out previous content
+        responseContainer.style.opacity = '0'
 
-      // Check if any audio is currently playing
-      if (audio && !audio.paused) {
-        // If audio is playing, pause it
-        audio.pause()
-      }      
-       // Add user message to the chat window
-      const messageElement = document.createElement('div')
-      messageElement.classList.add('message', 'user')
-      messageElement.textContent = userInput
-      chatWindow.appendChild(messageElement)
+        // Check if any audio is currently playing
+        if (audio && !audio.paused) {
+          // If audio is playing, pause it
+          audio.pause()
+        }
 
-      // Save messages to local storage
-      localStorage.setItem('messages', chatWindow.innerHTML)
+        // Add user message to the chat window
+        const messageElement = document.createElement('div')
+        messageElement.classList.add('message', 'user')
+        messageElement.textContent = userInput
+        chatWindow.appendChild(messageElement)
 
-      // Scroll to the bottom of the chat window
-      chatWindow.scrollTop = chatWindow.scrollHeight
+        // Save messages to local storage
+        localStorage.setItem('messages', chatWindow.innerHTML)
 
-       // Show typing indicator
-    const typingIndicator = document.getElementById('typing-indicator')
-    typingIndicator.classList.remove('hidden')
-    chatWindow.appendChild(typingIndicator)
+        // Scroll to the bottom of the chat window
+        chatWindow.scrollTop = chatWindow.scrollHeight
 
-      interact(userInput)
+        // Show typing indicator
+        const typingIndicator = document.getElementById('typing-indicator')
+        typingIndicator.classList.remove('hidden')
+        chatWindow.appendChild(typingIndicator)
+
+        interact(userInput)
+      }
     }
-  }
-})
-
+  })
 
   // Send user input to Voiceflow Dialog API
-  
   async function interact(input) {
     let body = {
       config: { tts: true, stripSSML: true },
       action: { type: 'text', payload: input },
     }
 
-    // If input is #launch# > Use a launch action to the request body
+    // If input is '#launch#' > Use a launch action to the request body
     if (input == '#launch#') {
       body = {
         config: { tts: true, stripSSML: true },
@@ -144,174 +137,127 @@ input.addEventListener('keypress', (event) => {
       .then((response) => response.json())
       .then((data) => {
         displayResponse(data)
+        // Hide typing indicator after processing all responses
+        document.getElementById('typing-indicator').classList.add('hidden')
       })
       .catch((err) => {
         // console.error(err)
         displayResponse(null)
+        // Hide typing indicator after processing all responses
+        document.getElementById('typing-indicator').classList.add('hidden')
       })
   }
 
   // Render the response from the Voiceflow Dialog API
-function displayResponse(response) {
- 
-  setTimeout(() => {
-    let audioQueue = []
+  function displayResponse(response) {
+    setTimeout(() => {
+      let audioQueue = []
 
-   // Fetch VF DM API response
-    if (response) {
-      response.forEach((item) => {
-        if (item.type === 'speak' || item.type === 'text') {
-          console.info('Speak/Text Step')
+      // Fetch VF DM API response
+      if (response) {
+        response.forEach((item) => {
+          if (item.type === 'speak' || item.type === 'text') {
+            console.info('Speak/Text Step')
 
-          const messageElement = document.createElement('div')
-          messageElement.classList.add('message', 'assistant')
-          messageElement.textContent = item.payload.message
-          chatWindow.appendChild(messageElement)
+            const messageElement = document.createElement('div')
+            messageElement.classList.add('message', 'assistant')
+            messageElement.textContent = item.payload.message
+            chatWindow.appendChild(messageElement)
 
-          // Save messages to local storage
-          localStorage.setItem('messages', chatWindow.innerHTML)
-          
-          // Add audio to the queue
-          if (item.payload.src) {
-            audioQueue.push(item.payload.src)
+            // Save messages to local storage
+            localStorage.setItem('messages', chatWindow.innerHTML)
+          } else if (item.type === 'visual') {
+            console.info('Visual Step')
+
+            const visualElement = document.createElement('div')
+            visualElement.classList.add('message', 'assistant')
+
+            const imageElement = document.createElement('img')
+            imageElement.src = item.payload.image
+            imageElement.alt = item.payload.title
+            imageElement.title = item.payload.title
+            imageElement.onclick = function () {
+              showModal(imageElement.src, imageElement.alt)
+            }
+
+            visualElement.appendChild(imageElement)
+            chatWindow.appendChild(visualElement)
+
+            // Save messages to local storage
+            localStorage.setItem('messages', chatWindow.innerHTML)
           }
-        } else if (item.type === 'visual') {
-          console.info('Image Step')
+        })
+      } else {
+        console.warn('API request failed > Display default error message')
 
-          const imageElement = document.createElement('img')
-          imageElement.src = item.payload.image
-          imageElement.alt = 'Assistant Image'
-          imageElement.style.width = '100%'
-          chatWindow.appendChild(imageElement)
-        }
-      })
-    } else {
-      console.info('Error')
+        const messageElement = document.createElement('div')
+        messageElement.classList.add('message', 'assistant')
+        messageElement.textContent =
+          "I'm sorry, I'm having trouble understanding you."
+        chatWindow.appendChild(messageElement)
 
-      const messageElement = document.createElement('div')
-      messageElement.classList.add('message', 'assistant')
-      messageElement.textContent = 'Sorry, GPT took too long to respond.\n\nPlease try again.'
-      chatWindow.appendChild(messageElement)
-    }
-    // Hide typing indicator after processing all responses
-    document.getElementById('typing-indicator').classList.add('hidden')
+        // Save messages to local storage
+        localStorage.setItem('messages', chatWindow.innerHTML)
+      }
+
+      // Scroll to the bottom of the chat window
+      chatWindow.scrollTop = chatWindow.scrollHeight
+
+      // Enable input field and apply fade-in animation
+      input.disabled = false
+      input.classList.remove('fade-out')
+      input.classList.add('fade-in')
 
       // Fade in new content
       responseContainer.style.opacity = '1'
 
-      // Function to play audio sequentially
-      function playNextAudio() {
-        if (audioQueue.length === 0) {
-          // Set focus back to the input field after all audios are played
-          instance.stop()
-          input.blur()
-          setTimeout(() => {
-            input.focus()
-          }, 100)
-          return
-        }
-
-        const audioSrc = audioQueue.shift()
-        audio = new Audio(audioSrc)
-
-        // Find and show the corresponding text
-        const textElement = responseContainer.querySelector(
-          `[data-src="${audioSrc}"]`
-        )
-        if (textElement) {
-          // Change the opacity of previous text
-          const previousTextElement = textElement.previousElementSibling
-          if (previousTextElement && previousTextElement.tagName === 'P') {
-            previousTextElement.style.opacity = '0.5'
-          }
-          // Show the current text
-          textElement.style.transition = 'opacity 0.5s'
-          textElement.style.opacity = '1'
-        }
-
-        audio.addEventListener('canplaythrough', () => {
-          audio.play()
-        })
-
-        audio.addEventListener('ended', () => {
-          playNextAudio()
-        })
-
-        // Handle errors
-        audio.addEventListener('error', () => {
-          console.error('Error playing audio:', audio.error)
-          playNextAudio() // Skip the current audio and continue with the next one
-        })
+      // Process audio queue
+      if (audioQueue.length > 0) {
+        audio.src = audioQueue[0]
+        audio.play()
       }
+    }, 250)
+  }
 
-      // Start playing audios sequentially
-    playNextAudio()
-  }, 250)
+  // Generate a unique ID for the user
+  function generateUniqueId() {
+    return (
+      Math.random().toString(36).substring(2) +
+      new Date().getTime().toString(36)
+    )
+  }
 
-  setTimeout(() => {
-    // Re-enable input field and remove focus
-    input.disabled = false
-    input.value = ''
-    input.classList.remove('fade-out')
-    input.blur()
-    input.focus()
-
-    // Scroll to the bottom of the chat window
-    chatWindow.scrollTop = chatWindow.scrollHeight
-  }, 200)
-}
-
-  // Modal to show Image
-  function showModal(imageSrc) {
+  // Create a modal to display an image
+  function showModal(src, alt) {
     const modal = document.createElement('div')
-    modal.id = 'modal'
-    modal.style.display = 'flex'
-    modal.style.justifyContent = 'center'
-    modal.style.alignItems = 'center'
-    modal.style.position = 'fixed'
-    modal.style.top = '0'
-    modal.style.left = '0'
-    modal.style.width = '100%'
-    modal.style.height = '100%'
-    modal.style.backgroundColor = 'rgba(0, 0, 0, 0.8)'
-    modal.style.opacity = '0'
-    modal.style.transition = 'opacity 0.3s ease'
+    modal.classList.add('modal')
 
-    const modalImage = document.createElement('img')
-    modalImage.src = imageSrc
-    modalImage.style.maxWidth = '90%'
-    modalImage.style.maxHeight = '90%'
-    modalImage.style.border = '2px solid white'
-    modalImage.style.boxShadow =
-      '0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)'
+    const modalContent = document.createElement('div')
+    modalContent.classList.add('modal-content')
 
-    modal.appendChild(modalImage)
+    const closeButton = document.createElement('span')
+    closeButton.classList.add('close')
+    closeButton.innerHTML = '&times;'
+    closeButton.onclick = function () {
+      modal.style.display = 'none'
+    }
+
+    const imageElement = document.createElement('img')
+    imageElement.src = src
+    imageElement.alt = alt
+    imageElement.title = alt
+
+    modalContent.appendChild(closeButton)
+    modalContent.appendChild(imageElement)
+    modal.appendChild(modalContent)
     document.body.appendChild(modal)
 
-    setTimeout(() => {
-      modal.style.opacity = '1'
-    }, 100)
-
-    modal.addEventListener('click', () => {
-      modal.style.opacity = '0'
-      setTimeout(() => {
-        document.body.removeChild(modal)
-      }, 300)
-    })
+    modal.style.display = 'block'
+    modal.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = 'none'
+      }
+    }
   }
 })
 
-// Function to generate a unique ID for the user
-function generateUniqueId() {
-  // generate a random string of 6 characters
-  const randomStr = Math.random().toString(36).substring(2, 8)
-  // get the current date and time as a string
-  const dateTimeStr = new Date().toISOString()
-  // remove the separators and milliseconds from the date and time string
-  const dateTimeStrWithoutSeparators = dateTimeStr
-    .replace(/[-:]/g, '')
-    .replace(/\.\d+/g, '')
-  // concatenate the random string and date and time string
-  const uniqueId = randomStr + dateTimeStrWithoutSeparators
-  return uniqueId
-}
