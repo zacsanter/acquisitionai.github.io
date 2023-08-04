@@ -153,8 +153,7 @@ input.addEventListener('keypress', (event) => {
 
   // Render the response from the Voiceflow Dialog API
 function displayResponse(response) {
-  // Hide typing indicator
-  document.getElementById('typing-indicator').classList.add('hidden')
+ 
   setTimeout(() => {
     let audioQueue = []
 
@@ -194,6 +193,8 @@ function displayResponse(response) {
       messageElement.textContent = 'Sorry, GPT took too long to respond.\n\nPlease try again.'
       chatWindow.appendChild(messageElement)
     }
+    // Hide typing indicator after processing all responses
+    document.getElementById('typing-indicator').classList.add('hidden')
 
       // Fade in new content
       responseContainer.style.opacity = '1'
