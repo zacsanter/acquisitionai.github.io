@@ -1,3 +1,17 @@
+#typing-animation {
+  font-size: 18px;
+  color: white;
+  text-align: left;
+  padding-left: 10%;
+  animation: typing 1s steps(3, end) infinite;
+}
+
+@keyframes typing {
+  0% { content: '.'; }
+  33% { content: '..'; }
+  67% { content: '...'; }
+}
+
 * {
   margin: 0;
   padding: 0;
