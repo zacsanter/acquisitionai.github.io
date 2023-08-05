@@ -194,20 +194,18 @@ a {
 #chat-container {
   position: fixed;
   top: 0;
-  bottom: 0;
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 #chat-window {
   overflow-y: auto;
-  height: calc(100% - 60px);  /* adjust this value as needed */
+  flex-grow: 1;
 }
 
 #input-container {
-  position: absolute;
+  position: sticky;
   bottom: 0;
   width: 100%;
 }
