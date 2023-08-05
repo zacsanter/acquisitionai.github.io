@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+   // Set chat-container height to viewport height
+  const chatContainer = document.getElementById('chat-container')
+  chatContainer.style.height = `${window.innerHeight}px`
+
   // Generate a unique ID for the user
   const uniqueId = generateUniqueId()
   
