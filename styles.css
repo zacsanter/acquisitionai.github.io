@@ -72,7 +72,7 @@ body, html {
 }
 
 #input-container {
-  position: absolute;
+  /* position: absolute; */ /* remove this line */
   bottom: 15%;
   left: 50%;
   transform: translate(-50%, 0);
