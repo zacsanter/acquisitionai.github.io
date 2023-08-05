@@ -191,12 +191,15 @@ a {
   color: #000000;
   margin-right: 20%;
 }
+
 #chat-container {
   position: fixed;
   top: 0;
+  bottom: 0;
   width: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden; /* add this line */
 }
 
 #chat-window {
@@ -205,7 +208,7 @@ a {
 }
 
 #input-container {
-  position: sticky;
+  position: fixed; /* change sticky to fixed */
   bottom: 0;
   width: 100%;
 }
