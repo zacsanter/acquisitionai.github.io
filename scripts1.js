@@ -32,6 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!savedMessages) {
     interact('#launch#')
   }
+   
+   const typingIndicator = document.getElementById('typing-indicator');
+typingIndicator.classList.add('hidden');
 
   // Select the restart button
   const restartButton = document.getElementById('restart-button')
