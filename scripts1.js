@@ -203,20 +203,7 @@ function displayResponse(response) {
       // Fade in new content
       responseContainer.style.opacity = '1'
 
-      // Function to play audio sequentially
-      function playNextAudio() {
-        if (audioQueue.length === 0) {
-          // Set focus back to the input field after all audios are played
-          instance.stop()
-          input.blur()
-          setTimeout(() => {
-            input.focus()
-          }, 100)
-          return
-        }
-
-        const audioSrc = audioQueue.shift()
-        audio = new Audio(audioSrc)
+     
 
         // Find and show the corresponding text
         const textElement = responseContainer.querySelector(
@@ -233,24 +220,7 @@ function displayResponse(response) {
           textElement.style.opacity = '1'
         }
 
-        audio.addEventListener('canplaythrough', () => {
-          audio.play()
-        })
-
-        audio.addEventListener('ended', () => {
-          playNextAudio()
-        })
-
-        // Handle errors
-        audio.addEventListener('error', () => {
-          console.error('Error playing audio:', audio.error)
-          playNextAudio() // Skip the current audio and continue with the next one
-        })
-      }
-
-      // Start playing audios sequentially
-    playNextAudio()
-  }, 250)
+      
 
   setTimeout(() => {
     // Re-enable input field and remove focus
