@@ -34,6 +34,13 @@ if (!uniqueId) {
     chatWindow.innerHTML = savedMessages
   }
 
+   if (localStorage.getItem('messages')) {
+    chatWindow.innerHTML = localStorage.getItem('messages');
+    // Hide the typing indicator after loading chat history
+    const typingIndicator = document.getElementById('typing-indicator');
+    typingIndicator.style.display = 'none'; // or typingIndicator.classList.add('hidden');
+}
+
   // Only call interact('#launch#') if there are no saved messages
   if (!savedMessages) {
     interact('#launch#')
