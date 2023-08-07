@@ -36,6 +36,10 @@ if (!uniqueId) {
 
    if (localStorage.getItem('messages')) {
     chatWindow.innerHTML = localStorage.getItem('messages');
+        // Hide the typing indicator after processing the response
+        const typingIndicator = document.getElementById('typing-indicator');
+        typingIndicator.style.display = 'none';  // or typingIndicator.classList.add('hidden');
+
     // Hide the typing indicator after loading chat history
     const typingIndicator = document.getElementById('typing-indicator');
     typingIndicator.style.display = 'none'; // or typingIndicator.classList.add('hidden');
@@ -136,6 +140,10 @@ input.addEventListener('keypress', (event) => {
   // Send user input to Voiceflow Dialog API
   
   async function interact(input) {
+    // Show the typing indicator before sending the message
+    const typingIndicator = document.getElementById('typing-indicator');
+    typingIndicator.style.display = 'block';  // or typingIndicator.classList.remove('hidden');
+
     let body = {
       config: { tts: true, stripSSML: true },
       action: { type: 'text', payload: input },
