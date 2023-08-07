@@ -5,7 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
   chatContainer.style.height = `${window.innerHeight}px`
 
   // Generate a unique ID for the user
-  const uniqueId = generateUniqueId()
+  
+let uniqueId = localStorage.getItem('uniqueId');
+if (!uniqueId) {
+    uniqueId = generateUniqueId();  // This is your existing logic to generate a uniqueId
+    localStorage.setItem('uniqueId', uniqueId);
+}
+
   
 
   // Set the runtime, version and API key for the Voiceflow Dialog API
@@ -32,9 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!savedMessages) {
     interact('#launch#')
   }
-   
-   const typingIndicator = document.getElementById('typing-indicator');
-typingIndicator.classList.add('hidden');
 
   // Select the restart button
   const restartButton = document.getElementById('restart-button')
