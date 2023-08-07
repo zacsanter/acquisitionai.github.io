@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const voiceflowVersionID =
     document.getElementById('vfassistant').getAttribute('data-version') ||
     'production'
-  const voiceflowAPIKey = 'VF.DM.64cd71cde8300a00077e246c.5PFuJPx3R8kLZoKe'
+  const voiceflowAPIKey = 'VF.DM.64d0df22cc248300068a858c.KXeO554glAybHVsR'
 
   let audio = new Audio()
   const input = document.getElementById('user-input')
