@@ -128,7 +128,12 @@ input.addEventListener('keypress', (event) => {
       localStorage.setItem('messages', chatWindow.innerHTML)
 
       // Scroll to the bottom of the chat window
-      chatWindow.scrollTop = chatWindow.scrollHeight
+      window.requestAnimationFrame(() => {
+    setTimeout(() => {
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    }, 100); // A 100ms delay, which you can adjust as needed.
+});
+
 
        // Show typing indicator
     const typingIndicator = document.getElementById('typing-indicator')
