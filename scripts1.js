@@ -23,6 +23,7 @@ if (!uniqueId) {
 
   let audio = new Audio()
   const input = document.getElementById('user-input')
+  const responseContainer = document.getElementById('response-container')
   const inputPlaceholder = document.getElementById('input-placeholder')
   const inputFieldContainer = document.getElementById('input-container')
   const chatWindow = document.getElementById('chat-window');
@@ -35,6 +36,10 @@ if (!uniqueId) {
 
    if (localStorage.getItem('messages')) {
     chatWindow.innerHTML = localStorage.getItem('messages');
+    // Hide the typing indicator after loading chat history
+    const typingIndicator = document.getElementById('typing-indicator');
+    typingIndicator.style.display = 'none';  // or typingIndicator.classList.add('hidden');
+
         // Hide the typing indicator after processing the response
         
         typingIndicator.style.display = 'none';  // or typingIndicator.classList.add('hidden');
@@ -106,6 +111,7 @@ input.addEventListener('keypress', (event) => {
       input.classList.add('fade-out')
 
       // Fade out previous content
+      responseContainer.style.opacity = '0'
 
       // Check if any audio is currently playing
       if (audio && !audio.paused) {
@@ -223,6 +229,7 @@ function displayResponse(response) {
     document.getElementById('typing-indicator').classList.add('hidden')
 
       // Fade in new content
+      responseContainer.style.opacity = '1'
 
       // Function to play audio sequentially
       function playNextAudio() {
@@ -240,6 +247,7 @@ function displayResponse(response) {
         audio = new Audio(audioSrc)
 
         // Find and show the corresponding text
+        const textElement = responseContainer.querySelector(
           `[data-src="${audioSrc}"]`
         )
         if (textElement) {

@@ -1,132 +1,215 @@
-.hidden 
-
-
-
-
-#typing-indicator 
-
-
-
-.dot 
-
-
-
-.dot:nth-child(2) 
-
-
-
-.dot:nth-child(3) 
-
-
-
-@keyframes typing-animation 
-
-
-  50% 
-
-
-  100% 
-
-
-}
-
-* 
-
-
-
-body, html 
-
-
-
-#restart-button 
-
-
-
-
-#input-placeholder 
-
-
-
-#input-container 
-
-
-
-#wave 
-
-
-
-#user-input 
-
-
-
-#response-container 
-
-
-
-
-a 
-
-
-
-.hidden 
-
-
-
-@keyframes fadeIn 
-
-
-  to 
-
-
-}
-
-@keyframes fadeOut 
-
-
-  to 
-
-
+.hidden {
+  display: none !important;
 }
 
 
-#user-input.fade-out 
-
-
-
-#user-input::placeholder 
-
-
-
-@keyframes waveAnimation 
-
-
-  100% 
-
-
+#typing-indicator {
+  display: flex;
+  justify-content: flex-start;
+  padding: 10px;
+  flex-direction: row;
 }
 
-#chat-window 
+.dot {
+  height: 6px;
+  width: 6px;
+  background-color: #999;
+  border-radius: 50%;
+  margin: 6px;
+  animation: typing-animation 1.2s infinite;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing-animation {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  background-color:black
+}
+
+#restart-button {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  padding: 10px;
+  border: none;
+  background-color: #007aff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
 
 
+#input-placeholder {
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 300;
+  font-size: 18px;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
 
-#chat-window .message 
+#input-container {
+  /* position: absolute; */ /* remove this line */
+  bottom: 15%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 60%;
+  transition: opacity 1s;
+  z-index: 1;
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.80);
+}
+
+#wave {
+  position: absolute;
+  top: calc(85% - 53.97px);
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+#user-input {
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  font-weight: 300;
+  font-family: 'Open Sans', sans-serif;
+  transform: translate(-50%, 0);
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.70);
+  font-size: 18px;
+  text-align: center;
+}
+
+#response-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 50%;
+  max-height: 50%;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.90);
+  font-weight: 300;
+  font-size: 20px;
+  opacity: 0;
+  transition: opacity 0.8s;
+}
 
 
+a {
+  color: white;
+  text-decoration: none;
+}
 
-#chat-window .message.user 
+.hidden {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
 
 
+#user-input.fade-out {
+  animation: fadeOut 0.5s forwards;
+}
 
-#chat-window .message.assistant 
+#user-input::placeholder {
+  color: transparent;
+}
 
+@keyframes waveAnimation {
+  0% {
+    transform: translateX(-50%) scale(0.2);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0;
+  }
+}
 
+#chat-window {
+  position: absolute;
+  top: 10%;
+  bottom: 20%;
+  left: 10%;
+  right: 10%;
+  border: 1px solid #ffffff;
+  overflow-y: auto;
+  padding: 10px;
+}
 
-#chat-container 
+#chat-window .message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
 
+#chat-window .message.user {
+  background-color: #007aff; /* blue for user messages */
+  color: #ffffff;
+  text-align: right;
+  margin-left: 20%;
+}
 
+#chat-window .message.assistant {
+  background-color: #e1e1e1; /* gray for assistant messages */
+  color: #000000;
+  margin-right: 20%;
+}
 
-#chat-window 
+#chat-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* add this line */
+}
 
+#chat-window {
+  overflow-y: auto;
+  flex-grow: 1;
+}
 
-
-#input-container 
+#input-container {
+  position: fixed; /* change sticky to fixed */
+  bottom: 0;
+  width: 100%;
+}
