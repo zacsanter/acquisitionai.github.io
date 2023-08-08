@@ -231,7 +231,14 @@ function displayResponse(response) {
       chatWindow.appendChild(messageElement)
     }
     // Hide typing indicator after processing all responses
-    document.getElementById('typing-indicator').classList.add('hidden')
+document.getElementById('typing-indicator').classList.add('hidden');
+
+// Ensure the chat window scrolls to the latest message
+window.requestAnimationFrame(() => {
+    setTimeout(() => {
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    }, 100); 
+});
 
       // Fade in new content
       responseContainer.style.opacity = '1'
