@@ -74,20 +74,6 @@ if (!uniqueId) {
     input.focus()
   })
 
-  // Show the 'start here' text with fadeIn animation after 3 seconds
-  setTimeout(() => {
-    inputPlaceholder.style.animation = 'fadeIn 0.5s forwards'
-  }, 3000)
-
-  // Hide 'start here' text with fadeOut animation on input field click
-  input.addEventListener('click', () => {
-    if (!inputPlaceholder.classList.contains('hidden')) {
-      inputPlaceholder.style.animation = 'fadeOut 0.5s forwards'
-      setTimeout(() => {
-        inputPlaceholder.classList.add('hidden')
-      }, 500)
-    }
-  })
 
 
   // Hide placeholder on input focus
