@@ -36,6 +36,10 @@ if (!uniqueId) {
 
    if (localStorage.getItem('messages')) {
     chatWindow.innerHTML = localStorage.getItem('messages');
+    // Hide the typing indicator after loading chat history
+    const typingIndicator = document.getElementById('typing-indicator');
+    typingIndicator.style.display = 'none';  // or typingIndicator.classList.add('hidden');
+
         // Hide the typing indicator after processing the response
         
         typingIndicator.style.display = 'none';  // or typingIndicator.classList.add('hidden');
