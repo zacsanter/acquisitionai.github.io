@@ -14,6 +14,7 @@ if (!uniqueId) {
 // Retrieve username and company name from localStorage
 const username = localStorage.getItem('username');
 const companyName = localStorage.getItem('companyName');
+   console.log(username, companyName);
 
 if (username && companyName) {
     const options = {
