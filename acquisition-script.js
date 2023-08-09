@@ -17,10 +17,12 @@ const companyName = localStorage.getItem('companyName');
 
 if (username && companyName) {
     const options = {
-        method: 'PATCH',
-        headers: {accept: 'application/json', 'content-type': 'application/json'},
-        body: JSON.stringify({username: username, companyName: companyName})
-    };
+  method: 'PATCH',
+  headers: {
+    accept: 'application/json',
+    'content-type': 'application/json',
+    Authorization: 'VF.DM.64d0df22cc248300068a858c.KXeO554glAybHVsR'
+  },
 
     // Use uniqueId for the userID in the Voiceflow API URL
     fetch('https://general-runtime.voiceflow.com/state/user/' + uniqueId + '/variables', options)
