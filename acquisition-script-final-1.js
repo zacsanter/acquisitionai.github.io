@@ -11,27 +11,6 @@ if (!uniqueId) {
     uniqueId = generateUniqueId();  // This is your existing logic to generate a uniqueId
     localStorage.setItem('uniqueId', uniqueId);
 
-// Retrieve username and company name from localStorage
-const username = localStorage.getItem('username');
-const companyName = localStorage.getItem('companyName');
-
-if (username && companyName) {
-    const options = {
-  method: 'PATCH',
-  headers: {
-    accept: 'application/json',
-    'content-type': 'application/json',
-    Authorization: 'VF.DM.64d0df22cc248300068a858c.KXeO554glAybHVsR'
-  },
-body: JSON.stringify({username: username, companyName: companyName})
-    };
-
-    // Use uniqueId for the userID in the Voiceflow API URL
-    fetch('https://general-runtime.voiceflow.com/state/user/' + uniqueId + '/variables', options)
-        .then(response => response.json())
-        .then(response => console.log(response))
-        .catch(err => console.error(err));
-}
 }
 
   
@@ -69,6 +48,27 @@ body: JSON.stringify({username: username, companyName: companyName})
     // Hide the typing indicator after loading chat history
     
     typingIndicator.style.display = 'none'; // or typingIndicator.classList.add('hidden');
+}
+   // Retrieve username and company name from localStorage
+const username = localStorage.getItem('username');
+const companyName = localStorage.getItem('companyName');
+
+if (username && companyName) {
+    const options = {
+  method: 'PATCH',
+  headers: {
+    accept: 'application/json',
+    'content-type': 'application/json',
+    Authorization: 'VF.DM.64d0df22cc248300068a858c.KXeO554glAybHVsR'
+  },
+body: JSON.stringify({username: username, companyName: companyName})
+    };
+
+    // Use uniqueId for the userID in the Voiceflow API URL
+    fetch('https://general-runtime.voiceflow.com/state/user/' + uniqueId + '/variables', options)
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .catch(err => console.error(err));
 }
 
   // Only call interact('#launch#') if there are no saved messages
