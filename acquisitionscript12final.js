@@ -29,7 +29,7 @@ body: JSON.stringify({username: username, companyName: companyName})
     };
 
     // Use uniqueId for the userID in the Voiceflow API URL
-    fetch('https://general-runtime.voiceflow.com/state/user/' + uniqueId + '/variables', options)
+    fetch('https://general-runtime.voiceflow.com/state/user/{userID}/variables', options)
         .then(response => response.json())
         .then(response => console.log(response))
         .catch(err => console.error(err));
