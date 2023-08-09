@@ -23,6 +23,8 @@ if (username && companyName) {
     'content-type': 'application/json',
     Authorization: 'VF.DM.64d0df22cc248300068a858c.KXeO554glAybHVsR'
   },
+body: JSON.stringify({username: username, companyName: companyName})
+    };
 
     // Use uniqueId for the userID in the Voiceflow API URL
     fetch('https://general-runtime.voiceflow.com/state/user/' + uniqueId + '/variables', options)
