@@ -1,5 +1,6 @@
 console.log("Script loaded!");
 
+
 document.addEventListener('DOMContentLoaded', () => {
 
    // Set chat-container height to viewport height
@@ -16,7 +17,8 @@ if (!uniqueId) {
 // Retrieve username and company name from localStorage
 const username = localStorage.getItem('username');
 const companyName = localStorage.getItem('companyName');
-   console.log(username, companyName);
+   console.log("Username:", username ? username : "Not set");
+console.log("CompanyName:", companyName ? companyName : "Not set");
 
 if (username && companyName) {
     const options = {
