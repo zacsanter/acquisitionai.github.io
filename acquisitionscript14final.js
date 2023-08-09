@@ -1,4 +1,8 @@
 console.log("Script loaded!");
+setTimeout(() => {
+    console.log("Delayed log for Username:", localStorage.getItem('username'));
+    console.log("Delayed log for CompanyName:", localStorage.getItem('companyName'));
+}, 5000);
 
 
 document.addEventListener('DOMContentLoaded', () => {
