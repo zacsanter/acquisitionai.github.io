@@ -28,6 +28,16 @@ if (!uniqueId) {
   const inputFieldContainer = document.getElementById('input-container')
   const chatWindow = document.getElementById('chat-window');
 
+   // Retrieve username and company name from localStorage
+const username = localStorage.getItem('username');
+const companyName = localStorage.getItem('companyName');
+
+const options = {
+    method: 'PATCH',
+    headers: {accept: 'application/json', 'content-type': 'application/json'},
+    body: JSON.stringify({username: username, companyName: companyName})
+};
+
   // Load messages from local storage
   const savedMessages = localStorage.getItem('messages')
   if (savedMessages) {
@@ -345,19 +355,3 @@ function generateUniqueId() {
   const uniqueId = randomStr + dateTimeStrWithoutSeparators
   return uniqueId
 }
-
-// Retrieve username and company name from localStorage
-const username = localStorage.getItem('username');
-const companyName = localStorage.getItem('companyName');
-
-const options = {
-    method: 'PATCH',
-    headers: {accept: 'application/json', 'content-type': 'application/json'},
-    body: JSON.stringify({username: username, companyName: companyName})
-};
-
-// Replace 'userID' with the actual user ID as needed
-fetch('https://general-runtime.voiceflow.com/state/user/userID/variables', options)
-    .then(response => response.json())
-    .then(response => console.log(response))
-    .catch(err => console.error(err));
