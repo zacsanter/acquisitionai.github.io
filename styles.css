@@ -57,6 +57,20 @@ body, html {
   color: white;
   font-size: 16px;
   cursor: pointer;
+  z-index: 10;
+}
+
+#sendButton {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  padding: 10px;
+  border: none;
+  background-color: #007aff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 10;
 }
 
 
