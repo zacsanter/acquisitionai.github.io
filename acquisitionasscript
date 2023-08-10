@@ -93,6 +93,16 @@ body: JSON.stringify({username: username, companyName: companyName})
     interact('#launch#')
   })
 
+    // Add a click event listener to the send button
+document.getElementById('sendButton').addEventListener('click', function() {
+    const inputElement = document.querySelector('.vf__input');
+    if (inputElement && inputElement.value.trim() !== '') {
+        const event = new KeyboardEvent('keydown', {
+            'key': 'Enter'
+        });
+        inputElement.dispatchEvent(event);
+    }
+});
 
   
 
@@ -373,13 +383,4 @@ function generateUniqueId() {
 }
 
 
-// Add a click event listener to the send button
-document.getElementById('sendButton').addEventListener('click', function() {
-    const inputElement = document.querySelector('.vf__input');
-    if (inputElement && inputElement.value.trim() !== '') {
-        const event = new KeyboardEvent('keydown', {
-            'key': 'Enter'
-        });
-        inputElement.dispatchEvent(event);
-    }
-});
+
