@@ -284,7 +284,7 @@ window.requestAnimationFrame(() => {
     // Scroll to the bottom of the chat window
     chatWindow.scrollTop = chatWindow.scrollHeight
   }, 200)
-}
+})
 
   // Modal to show Image
   function showModal(imageSrc) {
