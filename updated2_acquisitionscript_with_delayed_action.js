@@ -324,7 +324,7 @@ window.requestAnimationFrame(() => {
       }, 300)
     })
   }
-})
+}
 
 // Function to generate a unique ID for the user
 function generateUniqueId() {
