@@ -166,7 +166,7 @@ input.addEventListener('keypress', (event) => {
 
     // Show the typing indicator before sending the message
     
-    typingIndicator.style.display = 'block';  // or typingIndicator.classList.remove('hidden');
+    typingIndicator.style.display = 'flex';  // or typingIndicator.classList.remove('hidden');
 
     let body = {
       config: { tts: true, stripSSML: true },
