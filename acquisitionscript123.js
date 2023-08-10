@@ -371,21 +371,3 @@ function generateUniqueId() {
   const uniqueId = randomStr + dateTimeStrWithoutSeparators
   return uniqueId
 }
-
-
-// Assuming you have an input element with the ID 'user-input'
-const userInput = document.getElementById('user-input');
-
-// Get the send button using its ID
-const sendButton = document.getElementById('sendButton');
-
-// Add a click event listener to the send button
-sendButton.addEventListener('click', function() {
-    // Create a new 'return' key press event
-    const returnKeyEvent = new KeyboardEvent('keydown', {
-        key: 'Enter'
-    });
-
-    // Dispatch the event on the user-input element
-    userInput.dispatchEvent(returnKeyEvent);
-});
