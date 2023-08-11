@@ -73,7 +73,8 @@ function displayResponse(response) {
 }
 
 async function sendToWebhook(data) {
-    const webhookUrl = "YOUR_WEBHOOK_ENDPOINT";  // Replace with your webhook URL
+    const webhookUrl = "https://hook.eu2.make.com/s99gs8nxfqaz2r49iiwkttzjgk3sl4k6
+";  // Replace with your webhook URL
 
     try {
         const response = await fetch(webhookUrl, {
