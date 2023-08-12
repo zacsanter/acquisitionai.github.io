@@ -24,7 +24,7 @@ if (!uniqueId) {
   const voiceflowVersionID =
     document.getElementById('vfassistant').getAttribute('data-version') ||
     'production'
-  const voiceflowAPIKey = process.env.VOICEFLOW_API_KEY
+  const voiceflowAPIKey = 'VF.DM.64d0df22cc248300068a858c.KXeO554glAybHVsR'
 
   let audio = new Audio()
   const input = document.getElementById('user-input')
