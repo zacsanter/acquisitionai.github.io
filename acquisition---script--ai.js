@@ -53,27 +53,62 @@ if (!uniqueId) {
     
     typingIndicator.style.display = 'none'; // or typingIndicator.classList.add('hidden');
 }
-   // Retrieve username and company name from localStorage
-const username = localStorage.getItem('username');
-const companyName = localStorage.getItem('companyName');
+    (function(d, t) {
+        var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
 
-if (username && companyName) {
-    const options = {
-  method: 'PATCH',
-  headers: {
-    accept: 'application/json',
-    'content-type': 'application/json',
-    Authorization: 'VF.DM.64d7a72561533a0007acaee9.s5DAlK6F9jIHLekL'
-  },
-body: JSON.stringify({username: username, companyName: companyName})
-    };
+        // Get the JSON string from local storage
+        var jsonData = localStorage.getItem('_ud');
 
-    // Use uniqueId for the userID in the Voiceflow API URL
-    fetch('https://general-runtime.voiceflow.com/state/user/' + uniqueId + '/variables', options)
-        .then(response => response.json())
-        .then(response => console.log(response))
-        .catch(err => console.error(err));
-}
+        // Initialize variables for the required properties
+        var customerId = null;
+        var companyName = null;
+        var email = null;
+        var firstName = null;
+        var phone = null;
+
+        if (jsonData !== null) {
+            try {
+                var parsedData = JSON.parse(jsonData);
+                customerId = parsedData.customer_id;
+                companyName = parsedData.company_name;
+                email = parsedData.email;
+                firstName = parsedData.first_name;
+                phone = parsedData.phone;
+            } catch (e) {
+                // Handle any JSON parsing errors here
+                customerId = null;
+                companyName = null;
+                email = null;
+                firstName = null;
+                phone = null;
+            }
+        }
+
+        // Fetching timezone from local storage
+        var userTimeZone = localStorage.getItem("userTimeZone");
+
+        // Update Voiceflow user variables using the extracted properties
+        const options = {
+            method: 'PATCH',
+            headers: {
+                accept: 'application/json',
+                versionID: 'production',
+                'content-type': 'application/json',
+                Authorization: 'VF.DM.64dde9e69f9d270007f90d8e.L9W42WVd2SmrTHLH'
+            },
+            body: JSON.stringify({
+                first_name: firstName,
+                email: email,
+                phone: phone,
+                company_name: companyName,
+                timezone: userTimeZone  // Added timezone to the request body
+            })
+        };
+
+        fetch(`https://general-runtime.voiceflow.com/state/user/${customerId}/variables`, options)
+            .then(response => response.json())
+            .catch(err => console.error(err));
+
 
   // Only call interact('#launch#') if there are no saved messages
   if (!savedMessages) {
