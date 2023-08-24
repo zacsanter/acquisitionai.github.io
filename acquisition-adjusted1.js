@@ -109,7 +109,7 @@ fetch(`https://general-runtime.voiceflow.com/state/user/${customerId}/variables`
     .then(response => response.json())
     .catch(err => console.error(err));
 
-}
+})
 
   // Only call interact('#launch#') if there are no saved messages
   if (!savedMessages) {
