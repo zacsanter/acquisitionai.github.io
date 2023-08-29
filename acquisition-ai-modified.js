@@ -447,3 +447,4 @@ async function sendToWebhook(data) {
     // Wait for user variables to be updated
     await updateUserVariables();
 
+}
