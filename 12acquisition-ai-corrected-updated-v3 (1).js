@@ -16,7 +16,11 @@ const transcriptOptions = {
     'content-type': 'application/json',
     Authorization: 'VF.DM.64d7a72561533a0007acaee9.s5DAlK6F9jIHLekL'
   },
-  body: JSON.stringify({versionID: 'production', sessionID: customerId})
+  body: JSON.stringify({
+      versionID: 'production',
+      sessionID: customerId,
+      projectID: '64d7a72561533a0007acaee8'
+  })
 };
 
 fetch('https://api.voiceflow.com/v2/transcripts', transcriptOptions)
