@@ -124,19 +124,7 @@ if (typingIndicator) {
   if (!savedMessages) {
     interact('#launch#')
   }
-  // Select the restart button
-  const restartButton = document.getElementById('restart-button')
-  // Add click event listener to the restart button
-  restartButton.addEventListener('click', () => {
-    // Clear chat window and local storage
-    chatWindow.innerHTML = ''
-    localStorage.removeItem('messages')
-    // Initiate new chat
-    interact('#launch#')
-  })
-  inputFieldContainer.addEventListener('click', () => {
-    input.focus()
-  })
+  
   // Hide placeholder on input focus
   input.addEventListener('focus', () => {
     input.style.caretColor = 'transparent'
