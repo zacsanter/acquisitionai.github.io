@@ -1,3 +1,4 @@
+const typingIndicator = document.getElementById('typing-indicator');
 
 function updateUserVariables() {
     // Get the JSON string from local storage
