@@ -19,7 +19,7 @@ const transcriptOptions = {
   },
   body: JSON.stringify({
     versionID: 'production',
-    sessionID: customerId,
+    sessionID: 'hn2W4OsZVUglUCu7AnYa',
     projectID: '64e73e4a83cd530007f72e69'
   })
 };
