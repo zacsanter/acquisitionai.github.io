@@ -143,42 +143,6 @@ document.addEventListener('DOMContentLoaded', () => {
   input.addEventListener('blur', () => {
     input.style.caretColor = 'white'
   })
- // Send user input to Voiceflow Dialog API
-input.addEventListener('keypress', (event) => {
-  if (event.key === 'Enter') {
-    const userInput = input.value.trim()
-    if (userInput) {
-      // Disable input field and apply fade-out animation
-      input.disabled = true
-      input.classList.add('fade-out')
-      // Fade out previous content
-      responseContainer.style.opacity = '0'
-      // Check if any audio is currently playing
-      if (audio && !audio.paused) {
-        // If audio is playing, pause it
-        audio.pause()
-      }      
-       // Add user message to the chat window
-      const messageElement = document.createElement('div')
-      messageElement.classList.add('message', 'user')
-      messageElement.textContent = userInput
-      chatWindow.appendChild(messageElement)
-      // Save messages to local storage
-      localStorage.setItem('messages', chatWindow.innerHTML)
-      // Scroll to the bottom of the chat window
-      window.requestAnimationFrame(() => {
-    setTimeout(() => {
-        chatWindow.scrollTop = chatWindow.scrollHeight;
-    }, 100); // A 100ms delay, which you can adjust as needed.
-});
-       // Show typing indicator
-    const typingIndicator = document.getElementById('typing-indicator')
-    typingIndicator.classList.remove('hidden')
-    chatWindow.appendChild(typingIndicator)
-      interact(userInput)
-    }
-  }
-})
 
  // Send user input to Voiceflow Dialog API
 input.addEventListener('keypress', (event) => {
