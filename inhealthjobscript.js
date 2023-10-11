@@ -2,6 +2,8 @@ const typingIndicator = document.getElementById('typing-indicator');
 
 
 document.addEventListener('DOMContentLoaded', () => {
+      // Generate a unique ID for the user
+  const uniqueId = generateUniqueId()
     
    // Set chat-container height to viewport height
   const chatContainer = document.getElementById('chat-container')
@@ -137,7 +139,7 @@ if (typingIndicator) {
       }
     }
 
-    fetch(`https://${voiceflowRuntime}/state/user/${customerId}/interact/`, {
+    fetch(`https://${voiceflowRuntime}/state/user/${uniqueId}/interact/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -303,3 +305,17 @@ window.requestAnimationFrame(() => {
     })
   }
 })
+// Function to generate a unique ID for the user
+function generateUniqueId() {
+  // generate a random string of 6 characters
+  const randomStr = Math.random().toString(36).substring(2, 8)
+  // get the current date and time as a string
+  const dateTimeStr = new Date().toISOString()
+  // remove the separators and milliseconds from the date and time string
+  const dateTimeStrWithoutSeparators = dateTimeStr
+    .replace(/[-:]/g, '')
+    .replace(/\.\d+/g, '')
+  // concatenate the random string and date and time string
+  const uniqueId = randomStr + dateTimeStrWithoutSeparators
+  return uniqueId
+}
