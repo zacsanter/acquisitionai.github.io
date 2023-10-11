@@ -2,7 +2,7 @@ const typingIndicator = document.getElementById('typing-indicator');
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    updateUserVariables();
+    
    // Set chat-container height to viewport height
   const chatContainer = document.getElementById('chat-container')
   chatContainer.style.height = `${window.innerHeight}px`
