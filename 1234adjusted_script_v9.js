@@ -554,11 +554,6 @@ function displayResponse(response) {
 }
 
 function handleButtonClick(button) {
-    // Ensure global variables are accessible
-    const voiceflowRuntime = window.voiceflowRuntime;
-    const uniqueId = window.uniqueId;
-    const voiceflowAPIKey = window.voiceflowAPIKey;
-    const chatWindow = document.getElementById('chat-window');
 
     // Log the button name as a user message
     const userMessageElement = document.createElement('div');
