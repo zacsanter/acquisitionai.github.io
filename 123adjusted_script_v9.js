@@ -1,19 +1,19 @@
 const typingIndicator = document.getElementById('typing-indicator');
-
+const uniqueId = generateUniqueId()
+const voiceflowRuntime = 'general-runtime.voiceflow.com'
+  const voiceflowVersionID =
+    document.getElementById('vfassistant').getAttribute('data-version') ||
+    'production'
+  const voiceflowAPIKey = 'VF.DM.65231f69ffcc370007a1300b.VZhonEwUfY5zSJsY'
 
 document.addEventListener('DOMContentLoaded', () => {
       // Generate a unique ID for the user
-  const uniqueId = generateUniqueId()
     
    // Set chat-container height to viewport height
   const chatContainer = document.getElementById('chat-container')
   chatContainer.style.height = `${window.innerHeight}px`
   // Set the runtime, version and API key for the Voiceflow Dialog API
-  const voiceflowRuntime = 'general-runtime.voiceflow.com'
-  const voiceflowVersionID =
-    document.getElementById('vfassistant').getAttribute('data-version') ||
-    'production'
-  const voiceflowAPIKey = 'VF.DM.65231f69ffcc370007a1300b.VZhonEwUfY5zSJsY'
+  
   let audio = new Audio()
   const input = document.getElementById('user-input')
   const responseContainer = document.getElementById('response-container')
