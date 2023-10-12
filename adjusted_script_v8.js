@@ -562,11 +562,11 @@ function handleButtonClick(button) {
     chatWindow.appendChild(userMessageElement);
 
     // Send the button label as input to the API and handle the response
-    fetch(`https://${voiceflowRuntime}/state/user/${uniqueId}/interact/`, {
+    fetch(`https://general-runtime.voiceflow.com/state/user/${uniqueId}/interact/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: voiceflowAPIKey,
+            Authorization: 'VF.DM.65231f69ffcc370007a1300b.VZhonEwUfY5zSJsY',
         },
         body: JSON.stringify({ input: button.name }),
     })
