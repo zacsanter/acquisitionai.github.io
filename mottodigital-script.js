@@ -28,7 +28,7 @@ function displayResponse(response) {
 
         const taglineElement = document.createElement("div");
 taglineElement.classList.add("assistanttagline");
-taglineElement.textContent = "OpenReal Bot";
+taglineElement.textContent = "株式会社Mottodigital";
 chatWindow.appendChild(taglineElement);
 
 const assistantWrapper = document.createElement("div");
@@ -322,7 +322,7 @@ function handleButtonClick(event) {
   if (!prevMessage || !prevMessage.classList.contains("user")) {
     const userTaglineElement = document.createElement("div");
     userTaglineElement.classList.add("usertagline");
-    userTaglineElement.textContent = "You";
+    userTaglineElement.textContent = "あなた";
     chatWindow.appendChild(userTaglineElement);
   }
 
