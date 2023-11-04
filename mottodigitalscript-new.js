@@ -223,7 +223,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // Add user message to the chat window
         const taglineElement = document.createElement("div");
 taglineElement.classList.add("usertagline");
-taglineElement.textContent = "You";
+taglineElement.textContent = "あなた";
 chatWindow.appendChild(taglineElement);
 
 const userWrapper = document.createElement("div");
