@@ -17,6 +17,9 @@ const chatContainer = document.getElementById("chat-container");
 const restartButton = document.getElementById("restart-button");
 
 function displayResponse(response) {
+  // Hide the typing indicator at the beginning of the response handling
+  typingIndicator.classList.add("hidden");
+
   setTimeout(() => {
     let audioQueue = [];
 
@@ -48,9 +51,11 @@ function displayResponse(response) {
           messageElement.innerHTML = wrappedMessage;
 
           setTimeout(() => {
-            chatWindow.appendChild(taglineElement);
-            chatWindow.appendChild(assistantWrapper);
-          }, delay); 
+          chatWindow.appendChild(taglineElement);
+          chatWindow.appendChild(assistantWrapper);
+          // Scroll to the new message after the delay
+          chatWindow.scrollTop = chatWindow.scrollHeight;
+        }, delay); 
 
           if (item.payload.src) {
             audioQueue.push(item.payload.src);
@@ -255,6 +260,8 @@ chatWindow.appendChild(userWrapper);
         typingIndicator.classList.remove("hidden");
         chatWindow.appendChild(typingIndicator);
 
+ 
+
         interact(userInput);
       }
     }
@@ -339,6 +346,12 @@ function handleButtonClick(event) {
   userWrapper.appendChild(userMessageElement);
 
   chatWindow.appendChild(userWrapper);
+
+  
+  // Show typing indicator after a button is clicked
+  typingIndicator.classList.remove("hidden");
+  chatWindow.appendChild(typingIndicator);
+
 
   let body = { request: { type: event.target.dataset.key } };
   event.target.parentElement.remove();
