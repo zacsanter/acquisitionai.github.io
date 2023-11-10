@@ -17,15 +17,19 @@ const chatContainer = document.getElementById("chat-container");
 const restartButton = document.getElementById("restart-button");
 
 function displayResponse(response) {
-  // Hide the typing indicator at the beginning of the response handling
-  typingIndicator.classList.add("hidden");
-
   setTimeout(() => {
     let audioQueue = [];
 
     if (response) {
       response.forEach((item, index) => {
         const delay = index * 1000; // 1 second delay for each item
+
+        // Show typing indicator for each item with a delay
+        if (index > 0) { // Don't show for the first item as it already has a typing indicator
+          setTimeout(() => {
+            typingIndicator.classList.remove("hidden");
+          }, (delay - 1000)); // Show typing indicator 1 second before the message
+        }
 
         if (item.type === "speak" || item.type === "text") {
           console.info("Speak/Text Step");
@@ -51,16 +55,18 @@ function displayResponse(response) {
           messageElement.innerHTML = wrappedMessage;
 
           setTimeout(() => {
-          chatWindow.appendChild(taglineElement);
-          chatWindow.appendChild(assistantWrapper);
-          // Scroll to the new message after the delay
-          chatWindow.scrollTop = chatWindow.scrollHeight;
-        }, delay); 
+            // Hide typing indicator right before appending the message
+            typingIndicator.classList.add("hidden");
+
+            chatWindow.appendChild(taglineElement);
+            chatWindow.appendChild(assistantWrapper);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+          }, delay); 
 
           if (item.payload.src) {
             audioQueue.push(item.payload.src);
           }
-        } else if (item.type === "choice") {
+         } else if (item.type === "choice") {
           const buttonContainer = document.createElement("div");
           buttonContainer.classList.add("buttoncontainer");
 
@@ -74,8 +80,11 @@ function displayResponse(response) {
             });
 
             setTimeout(() => {
-              buttonContainer.appendChild(buttonElement);
-            }, delay);
+              typingIndicator.classList.add("hidden");
+
+            chatWindow.appendChild(buttonContainer);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+          }, delay);
           });
 
           setTimeout(() => {
