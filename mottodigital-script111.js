@@ -20,36 +20,40 @@ function displayResponse(response) {
   setTimeout(() => {
     let audioQueue = [];
 
-     if (response) {
+    if (response) {
       response.forEach((item) => {
-        
-    if (item.type === "speak" || item.type === "text") {
-        console.info("Speak/Text Step");
+        if (item.type === "speak" || item.type === "text") {
+          console.info("Speak/Text Step");
 
-        const taglineElement = document.createElement("div");
-taglineElement.classList.add("assistanttagline");
-taglineElement.textContent = "株式会社Mottodigital";
-chatWindow.appendChild(taglineElement);
+          const taglineElement = document.createElement("div");
+          taglineElement.classList.add("assistanttagline");
+          taglineElement.textContent = "株式会社Mottodigital";
+          // Delay for appending assistant's message
+          setTimeout(() => {
+            chatWindow.appendChild(taglineElement);
+          }, 1500); 
 
-const assistantWrapper = document.createElement("div");
-assistantWrapper.classList.add("assistantwrapper");
+          const assistantWrapper = document.createElement("div");
+          assistantWrapper.classList.add("assistantwrapper");
 
-const assistantImage = document.createElement("div");
-assistantImage.classList.add("assistantimage");
-assistantWrapper.appendChild(assistantImage);
+          const assistantImage = document.createElement("div");
+          assistantImage.classList.add("assistantimage");
+          assistantWrapper.appendChild(assistantImage);
 
-const messageElement = document.createElement("div");
-messageElement.classList.add("message", "assistant");
-assistantWrapper.appendChild(messageElement);
-    
-messageElement.classList.add("message", "assistant");
-        
-        // Extract the 'message' field, split it into paragraphs and wrap each in <p></p> tags
-        const paragraphs = item.payload.message.split("\n\n");
-        const wrappedMessage = paragraphs.map(para => `<p>${para}</p>`).join("");
-        
-        messageElement.innerHTML = wrappedMessage;
-        chatWindow.appendChild(assistantWrapper);
+          const messageElement = document.createElement("div");
+          messageElement.classList.add("message", "assistant");
+          assistantWrapper.appendChild(messageElement);
+      
+          messageElement.classList.add("message", "assistant");
+          
+          const paragraphs = item.payload.message.split("\n\n");
+          const wrappedMessage = paragraphs.map(para => `<p>${para}</p>`).join("");
+          
+          messageElement.innerHTML = wrappedMessage;
+          // Delay for appending assistant's message
+          setTimeout(() => {
+            chatWindow.appendChild(assistantWrapper);
+          }, 1500); 
 
           // Save messages to local storage
 
@@ -223,7 +227,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // Add user message to the chat window
         const taglineElement = document.createElement("div");
 taglineElement.classList.add("usertagline");
-taglineElement.textContent = "あなた";
+taglineElement.textContent = "ユーザー";
 chatWindow.appendChild(taglineElement);
 
 const userWrapper = document.createElement("div");
@@ -322,7 +326,7 @@ function handleButtonClick(event) {
   if (!prevMessage || !prevMessage.classList.contains("user")) {
     const userTaglineElement = document.createElement("div");
     userTaglineElement.classList.add("usertagline");
-    userTaglineElement.textContent = "あなた";
+    userTaglineElement.textContent = "ユーザー";
     chatWindow.appendChild(userTaglineElement);
   }
 
