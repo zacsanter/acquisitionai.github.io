@@ -21,17 +21,15 @@ function displayResponse(response) {
     let audioQueue = [];
 
     if (response) {
-      response.forEach((item) => {
+      response.forEach((item, index) => {
+        const delay = index * 1000; // 1 second delay for each item
+
         if (item.type === "speak" || item.type === "text") {
           console.info("Speak/Text Step");
 
           const taglineElement = document.createElement("div");
           taglineElement.classList.add("assistanttagline");
           taglineElement.textContent = "株式会社Mottodigital";
-          // Delay for appending assistant's message
-          setTimeout(() => {
-            chatWindow.appendChild(taglineElement);
-          }, 1500); 
 
           const assistantWrapper = document.createElement("div");
           assistantWrapper.classList.add("assistantwrapper");
@@ -43,26 +41,21 @@ function displayResponse(response) {
           const messageElement = document.createElement("div");
           messageElement.classList.add("message", "assistant");
           assistantWrapper.appendChild(messageElement);
-      
-          messageElement.classList.add("message", "assistant");
-          
+
           const paragraphs = item.payload.message.split("\n\n");
           const wrappedMessage = paragraphs.map(para => `<p>${para}</p>`).join("");
           
           messageElement.innerHTML = wrappedMessage;
-          // Delay for appending assistant's message
+
           setTimeout(() => {
+            chatWindow.appendChild(taglineElement);
             chatWindow.appendChild(assistantWrapper);
-          }, 1500); 
+          }, delay); 
 
-          // Save messages to local storage
-
-          // Add audio to the queue
           if (item.payload.src) {
             audioQueue.push(item.payload.src);
           }
         } else if (item.type === "choice") {
-          // Handle 'choice' type items to render buttons
           const buttonContainer = document.createElement("div");
           buttonContainer.classList.add("buttoncontainer");
 
@@ -71,13 +64,18 @@ function displayResponse(response) {
             buttonElement.classList.add("assistant", "message", "button");
             buttonElement.textContent = button.name;
             buttonElement.dataset.key = button.request.type;
-            // Add event listener for button click
             buttonElement.addEventListener("click", (event) => {
               handleButtonClick(event);
             });
-            buttonContainer.appendChild(buttonElement);
+
+            setTimeout(() => {
+              buttonContainer.appendChild(buttonElement);
+            }, delay);
           });
-          chatWindow.appendChild(buttonContainer);
+
+          setTimeout(() => {
+            chatWindow.appendChild(buttonContainer);
+          }, delay);
         } else if (item.type === "visual") {
           console.info("Image Step");
 
@@ -85,25 +83,24 @@ function displayResponse(response) {
           imageElement.src = item.payload.image;
           imageElement.alt = "Assistant Image";
           imageElement.style.width = "100%";
-          chatWindow.appendChild(imageElement);
+
+          setTimeout(() => {
+            chatWindow.appendChild(imageElement);
+          }, delay);
         }
         localStorage.setItem("messages", chatWindow.innerHTML);
-
       });
     }
 
     typingIndicator.classList.add("hidden");
 
-    // Ensure the chat window scrolls to the latest message
     window.requestAnimationFrame(() => {
       setTimeout(() => {
         chatWindow.scrollTop = chatWindow.scrollHeight;
       }, 100);
     });
 
-    // Fade in new content
     responseContainer.style.opacity = "1";
-    // Function to play audio sequentially
     function playNextAudio() {
       if (audioQueue.length === 0) {
         // Set focus back to the input field after all audios are played
